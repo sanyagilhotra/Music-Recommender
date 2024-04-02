@@ -39,17 +39,18 @@ class ContentBasedRecommender:
 
     def _print_message(self, song, recom_song):
         rec_num = len(recom_song)
-        print(f'The {rec_num} recommended songs for {song} are:')
+        rec=[]
         for i in range(rec_num):
-            print(f"\nNumber {i+1}:")
-            print(f"{recom_song[i][1]} by {recom_song[i][2]}") 
-        
+            x={"Song":recom_song[i][1],"Artist":recom_song[i][2]}
+            rec.append(x)
+        return rec
         
     def recommend(self, recommendation):
         song = recommendation['song']
         number_songs = recommendation['number_songs']
         recom_song = self.matrix_similar[song][:number_songs]
-        self._print_message(song=song, recom_song=recom_song)
+        recommen_list=self._print_message(song=song, recom_song=recom_song)
+        return recommen_list
 
 # %%
 # class CollaborativeFilteringRecommender:
@@ -69,11 +70,14 @@ def get_selection(artist,song,text,rec_num):
         similar_indices = cosine_similarities[i].argsort()[:-50:-1] 
         similarities[songs['song'].iloc[i]] = [(cosine_similarities[i][x], songs['song'].iloc[x], songs['artist'].iloc[x]) for x in similar_indices][1:]
     recommedations = ContentBasedRecommender(similarities)
-    recommendation = {
+    rec_data = {
     "song": songs['song'].iloc[3000],
     "number_songs": rec_num }
-    rec_songs=recommedations.recommend(recommendation)
-    
+    rec_songs=recommedations.recommend(rec_data)
+    return rec_songs
+
+# %%
+
 
 # %%
 
