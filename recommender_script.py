@@ -77,7 +77,7 @@ def get_selection(artist,song,text,rec_num):
         similarities[songs['song'].iloc[i]] = [(cosine_similarities[i][x], songs['song'].iloc[x], songs['artist'].iloc[x]) for x in similar_indices][1:]
     
     rec_list=sentiment_analysis(text,similarities[song][1:])
-    return rec_list[:5]
+    return rec_list[:rec_num]
 
 # %%
 
